@@ -1,18 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchInputlayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/five_dp"
+        app:endIconMode="custom"
+        app:boxBackgroundMode="none"
+        app:endIconDrawable="@drawable/ic_small_search">
+
+
+        <AutoCompleteTextView
+            android:id="@+id/et_searchbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/dark_gray"
+            android:textColor="@color/dark_gray"
+            android:textStyle="bold"
+            android:hint="@string/enter_currency_pair"
+            android:paddingStart="@dimen/fifteen_sp"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_ticker_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="@dimen/twenty_sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/searchInputlayout">
+
+        <TextView
+            android:id="@+id/tv_currency_pair_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BTCUSD"
+            android:textColor="@color/black"
+            android:textSize="@dimen/thirty_sp" />
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:text="19 Dec 2020, 15:44:33"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_open_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/thirty_sp"
+            android:layout_below="@+id/tv_currency_pair_name"
+            android:text="@string/str_open"/>
+
+        <TextView
+            android:id="@+id/tv_open_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_open_str"
+            android:text="$ 23,142.05"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty_sp" />
+
+
+        <TextView
+            android:id="@+id/tv_low_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/thirty_sp"
+            android:layout_below="@+id/tv_open_value"
+            android:text="@string/str_low"/>
+
+        <TextView
+            android:id="@+id/tv_low_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_low_str"
+            android:text="$ 23,142.05"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty_sp" />
+
+
+        <TextView
+            android:id="@+id/tv_volume_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/thirty_sp"
+            android:layout_below="@+id/tv_low_value"
+            android:text="@string/str_volume"/>
+
+        <TextView
+            android:id="@+id/tv_volume_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_volume_str"
+            android:text="$ 23,142.05"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty_sp" />
+
+
+        <TextView
+            android:id="@+id/tv_high_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/thirty_sp"
+            android:layout_alignStart="@+id/tv_date"
+            android:layout_below="@+id/tv_currency_pair_name"
+            android:text="@string/high"/>
+
+        <TextView
+            android:id="@+id/tv_high_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_high_str"
+            android:layout_alignStart="@+id/tv_date"
+            android:text="$ 23,142.05"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty_sp" />
+
+
+        <TextView
+            android:id="@+id/tv_last_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/thirty_sp"
+            android:layout_alignStart="@+id/tv_date"
+            android:layout_below="@+id/tv_high_value"
+            android:text="@string/last"/>
+
+        <TextView
+            android:id="@+id/tv_last_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_last_str"
+            android:layout_alignStart="@+id/tv_date"
+            android:text="$ 23,142.05"
+            android:textColor="@color/black"
+            android:textSize="@dimen/twenty_sp" />
+
+
+        <TextView
+            android:id="@+id/tv_view_hide_order_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_volume_value"
+            android:layout_alignStart="@+id/tv_date"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:textStyle="bold"
+            android:text="VIEW ORDER BOOK"
+            android:textColor="@color/purple_700"/>
+
+    </RelativeLayout>
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/str_refresh"
+        android:backgroundTint="@color/purple_500"
+        android:visibility="gone"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_sync"/>
+
+
+
+    <ProgressBar
+        android:id="@+id/pb_api"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:indeterminateTint="@color/design_default_color_primary"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

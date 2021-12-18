@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CryptoAPI</string>
+    <string name="enter_currency_pair">Enter currency pair</string>
+    <string name="str_open">OPEN</string>
+    <string name="str_low">LOW</string>
+    <string name="str_volume">VOLUME</string>
+    <string name="high">HIGH</string>
+    <string name="last">LAST</string>
+    <string name="str_refresh">Refresh</string>
 </resources>
