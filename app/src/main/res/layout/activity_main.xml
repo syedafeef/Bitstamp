@@ -173,7 +173,92 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_orderlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/rl_ticker_detail">
 
+        <TextView
+            android:text="@string/order_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/ten_dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/ten_dp"
+            app:cardCornerRadius="@dimen/five_dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="@dimen/thirteen_sp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bid_price"/>
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="@dimen/thirteen_sp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/qty"
+                            android:textColor="@color/green"/>
+
+
+                        <TextView
+                            android:layout_width="0sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="@dimen/thirteen_sp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/qty"
+                            android:textColor="@color/red"/>
+
+                        <TextView
+                            android:id="@+id/askAmount"
+                            android:layout_width="0sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="@dimen/thirteen_sp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ask_price"/>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_orderList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_refresh"
@@ -187,8 +272,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_sync"/>
 
-
-
     <ProgressBar
         android:id="@+id/pb_api"
         android:layout_width="wrap_content"
@@ -200,6 +283,5 @@
         android:indeterminateTint="@color/design_default_color_primary"
         android:visibility="gone"
         tools:ignore="MissingConstraints" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

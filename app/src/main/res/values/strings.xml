@@ -7,4 +7,12 @@
     <string name="high">HIGH</string>
     <string name="last">LAST</string>
     <string name="str_refresh">Refresh</string>
+    <string name="ask_price">ASK PRICE</string>
+    <string name="qty">QTY</string>
+    <string name="bid_price">BID PRICE</string>
+    <string name="order_book">ORDER BOOK</string>
+    <string name="hide_order_book">HIDE ORDER BOOK</string>
+    <string name="view_order_book">VIEW ORDER BOOK</string>
+    <string name="enter_valid_currency">Enter a valid currency</string>
+    <string name="no_open_order">No open order</string>
 </resources>
