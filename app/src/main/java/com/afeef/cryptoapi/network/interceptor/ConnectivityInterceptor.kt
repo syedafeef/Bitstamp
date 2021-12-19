@@ -18,12 +18,10 @@ class ConnectivityInterceptorImpl(context: Context) : ConnectivityInterceptor {
         if(isConnectedToNetwork()) {
             return chain.proceed(chain.request())
         }
-
         throw NetworkException()
     }
 
-
-    fun isConnectedToNetwork(): Boolean {
+    private fun isConnectedToNetwork(): Boolean {
         val cm = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

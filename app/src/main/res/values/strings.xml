@@ -13,6 +13,9 @@
     <string name="order_book">ORDER BOOK</string>
     <string name="hide_order_book">HIDE ORDER BOOK</string>
     <string name="view_order_book">VIEW ORDER BOOK</string>
-    <string name="enter_valid_currency">Enter a valid currency</string>
+    <string name="enter_valid_currency">Not a valid currency pair</string>
+    <string name="enter_currency">Please enter a currency pair</string>
     <string name="no_open_order">No open order</string>
+    <string name="enter_a_currency_pair_to_load_data">Enter a currency pair to load data</string>
+    <string name="search">search</string>
 </resources>

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afeef.cryptoapi.R
 import com.afeef.cryptoapi.model.OrderBookItem
 import kotlinx.android.synthetic.main.order_book_list_item.view.*
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class OrderBookListAdapter :
     ListAdapter<OrderBookItem, OrderBookListAdapter.OrderBookItemViewHolder>(OrderBookDiffUtil()) {
@@ -27,10 +29,15 @@ class OrderBookListAdapter :
 
     override fun onBindViewHolder(holder: OrderBookItemViewHolder, position: Int) {
         getItem(position).let {
-            holder.bidAmount.text = it.bid.amount
+            holder.bidAmount.text = removeDecimal(it.bid.amount)
             holder.bidPrice.text = it.bid.price
-            holder.askAmount.text = it.ask.amount
+            holder.askAmount.text = removeDecimal(it.ask.amount)
             holder.askPrice.text = it.ask.price
         }
+    }
+
+    private fun removeDecimal(valueStr: String): String{
+        val number = BigDecimal(valueStr)
+        return number.setScale(5, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString()
     }
 }

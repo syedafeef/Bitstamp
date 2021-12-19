@@ -25,6 +25,5 @@ class CryptoApplicationClass :Application(), KodeinAware {
 
         bind() from provider { MainActivityViewModel(instance()) }
 
-
     }
 }

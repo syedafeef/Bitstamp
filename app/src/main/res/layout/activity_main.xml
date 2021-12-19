@@ -17,8 +17,8 @@
         android:layout_marginTop="@dimen/five_dp"
         app:endIconMode="custom"
         app:boxBackgroundMode="none"
+        app:hintEnabled="false"
         app:endIconDrawable="@drawable/ic_small_search">
-
 
         <AutoCompleteTextView
             android:id="@+id/et_searchbar"
@@ -26,12 +26,44 @@
             android:layout_height="wrap_content"
             android:textColorHint="@color/dark_gray"
             android:textColor="@color/dark_gray"
+            android:background="@color/very_light_gray"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:textStyle="bold"
+            android:imeOptions="actionDone"
             android:hint="@string/enter_currency_pair"
             android:paddingStart="@dimen/fifteen_sp"
+            android:paddingEnd="@dimen/fifteen_sp"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_searchtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/two_hundred_dp"
+            android:src="@drawable/ic_big_search"
+            android:contentDescription="@string/search" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fifteen_sp"
+            android:text="@string/enter_a_currency_pair_to_load_data"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/rl_ticker_detail"
@@ -43,14 +75,18 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/searchInputlayout">
 
+        <View
+            android:id="@+id/view_center"
+            android:layout_centerInParent="true"
+            android:layout_width="1dp"
+            android:layout_height="1dp"/>
+
         <TextView
             android:id="@+id/tv_currency_pair_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BTCUSD"
             android:textColor="@color/black"
             android:textSize="@dimen/thirty_sp" />
-
 
         <TextView
             android:id="@+id/tv_date"
@@ -58,7 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:text="19 Dec 2020, 15:44:33"
+            android:textSize="@dimen/thirteen_sp"
+            android:layout_toStartOf="@id/tv_currency_pair_name"
             android:textColor="@color/black" />
 
         <TextView
@@ -66,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:textSize="@dimen/thirteen_sp"
             android:layout_marginTop="@dimen/thirty_sp"
             android:layout_below="@+id/tv_currency_pair_name"
             android:text="@string/str_open"/>
@@ -75,7 +113,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_open_str"
-            android:text="$ 23,142.05"
             android:textColor="@color/black"
             android:textSize="@dimen/twenty_sp" />
 
@@ -85,6 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:textSize="@dimen/thirteen_sp"
             android:layout_marginTop="@dimen/thirty_sp"
             android:layout_below="@+id/tv_open_value"
             android:text="@string/str_low"/>
@@ -94,7 +132,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_low_str"
-            android:text="$ 23,142.05"
             android:textColor="@color/black"
             android:textSize="@dimen/twenty_sp" />
 
@@ -103,17 +140,17 @@
             android:id="@+id/tv_volume_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/thirty_sp"
             android:layout_below="@+id/tv_low_value"
-            android:text="@string/str_volume"/>
+            android:textSize="@dimen/thirteen_sp"
+            android:layout_marginTop="@dimen/thirty_sp"
+            android:text="@string/str_volume"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_volume_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_volume_str"
-            android:text="$ 23,142.05"
             android:textColor="@color/black"
             android:textSize="@dimen/twenty_sp" />
 
@@ -124,7 +161,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/thirty_sp"
-            android:layout_alignStart="@+id/tv_date"
+            android:textSize="@dimen/thirteen_sp"
+            android:layout_alignStart="@+id/view_center"
             android:layout_below="@+id/tv_currency_pair_name"
             android:text="@string/high"/>
 
@@ -133,8 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_high_str"
-            android:layout_alignStart="@+id/tv_date"
-            android:text="$ 23,142.05"
+            android:layout_alignStart="@+id/view_center"
             android:textColor="@color/black"
             android:textSize="@dimen/twenty_sp" />
 
@@ -145,7 +182,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/thirty_sp"
-            android:layout_alignStart="@+id/tv_date"
+            android:textSize="@dimen/thirteen_sp"
+            android:layout_alignStart="@+id/view_center"
             android:layout_below="@+id/tv_high_value"
             android:text="@string/last"/>
 
@@ -154,8 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_last_str"
-            android:layout_alignStart="@+id/tv_date"
-            android:text="$ 23,142.05"
+            android:layout_alignStart="@+id/view_center"
             android:textColor="@color/black"
             android:textSize="@dimen/twenty_sp" />
 
@@ -165,11 +202,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_volume_value"
-            android:layout_alignStart="@+id/tv_date"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/ten_dp"
-            android:textStyle="bold"
-            android:text="VIEW ORDER BOOK"
-            android:textColor="@color/purple_700"/>
+            android:text="@string/view_order_book"
+            android:textColor="@color/purple_700"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -214,6 +251,7 @@
                             android:gravity="center"
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/green"
                             android:text="@string/bid_price"/>
 
                         <TextView
@@ -222,8 +260,7 @@
                             android:gravity="center"
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
-                            android:text="@string/qty"
-                            android:textColor="@color/green"/>
+                            android:text="@string/qty"/>
 
 
                         <TextView
@@ -232,8 +269,7 @@
                             android:gravity="center"
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
-                            android:text="@string/qty"
-                            android:textColor="@color/red"/>
+                            android:text="@string/qty"/>
 
                         <TextView
                             android:id="@+id/askAmount"
@@ -242,6 +278,7 @@
                             android:gravity="center"
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/red"
                             android:text="@string/ask_price"/>
 
                 </LinearLayout>
