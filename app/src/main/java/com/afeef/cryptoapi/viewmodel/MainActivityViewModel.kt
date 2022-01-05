@@ -1,16 +1,16 @@
 package com.afeef.cryptoapi.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.afeef.cryptoapi.db.AppDatabase
 import com.afeef.cryptoapi.network.BitStampApiService
 import com.afeef.cryptoapi.network.NetworkException
 import com.afeef.cryptoapi.network.common.ErrorType
 import com.afeef.cryptoapi.network.common.Response
 import com.afeef.cryptoapi.network.common.Error
+import kotlinx.coroutines.*
 
 class MainActivityViewModel(private val service: BitStampApiService): ViewModel() {
 
@@ -22,22 +22,30 @@ class MainActivityViewModel(private val service: BitStampApiService): ViewModel(
     var tickerRequestId :Int = 1010
     var orderBookRequestId :Int = 1001
 
-    fun getTickerData(currencyPair:String) {
-        _loadingState.value = true
+    private val viewModelJob = SupervisorJob()
+    private val ioScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+//    var database : AppDatabase?
 
-        GlobalScope.launch(Dispatchers.Main) {
+    init {
+//        database = AppDatabase.getAppDataBase()
+    }
+
+
+    fun getTickerData(currencyPair:String) {
+        _loadingState.postValue(true)
+        ioScope.launch {
             try {
                 val serviceResponse = service.getTickerHistory(currencyPair)
 
-                _loadingState.value = false
+                _loadingState.postValue(false)
                 if(serviceResponse.isSuccessful) {
-                    _response.value = Response(serviceResponse.code(), true, serviceResponse.body(),tickerRequestId,  null)
+                    _response.postValue(Response(serviceResponse.code(), true, serviceResponse.body(),tickerRequestId,  null))
                 } else {
                     handleError(null, tickerRequestId )
                 }
             }
             catch (e : Exception) {
-                _loadingState.value = false
+                _loadingState.postValue(false)
                 handleError(e, tickerRequestId)
             }
         }
@@ -45,21 +53,21 @@ class MainActivityViewModel(private val service: BitStampApiService): ViewModel(
 
 
     fun getOrderBookData(currencyPair:String) {
-        _loadingState.value = true
+        _loadingState.postValue(true)
 
-        GlobalScope.launch(Dispatchers.Main) {
+        ioScope.launch{
             try {
                 val serviceResponse = service.getOrderBook(currencyPair)
 
-                _loadingState.value = false
+                _loadingState.postValue(false)
                 if(serviceResponse.isSuccessful) {
-                    _response.value = Response(serviceResponse.code(), true, serviceResponse.body(), orderBookRequestId, null)
+                    _response.postValue(Response(serviceResponse.code(), true, serviceResponse.body(), orderBookRequestId, null))
                 } else {
                     handleError(null, orderBookRequestId )
                 }
             }
             catch (e : Exception) {
-                _loadingState.value = false
+                _loadingState.postValue(false)
                 handleError(e, orderBookRequestId)
             }
         }
@@ -68,7 +76,7 @@ class MainActivityViewModel(private val service: BitStampApiService): ViewModel(
     private fun handleError(e : Exception?, requestId: Int) {
         val message = e?.message.toString()
         val type = if(e != null && e is NetworkException) ErrorType.NETWORK_ERROR else ErrorType.SERVER_ERROR
-        _response.value = Response(400, false, null, requestId, Error(type, message))
+        _response.postValue(Response(400, false, null, requestId, Error(type, message)))
     }
 
 }
