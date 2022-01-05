@@ -1,6 +1,7 @@
 package com.afeef.cryptoapi
 
 import android.app.Application
+import com.afeef.cryptoapi.db.AppDatabase
 import com.afeef.cryptoapi.network.BitStampApiService
 import com.afeef.cryptoapi.network.interceptor.ConnectivityInterceptor
 import com.afeef.cryptoapi.network.interceptor.ConnectivityInterceptorImpl

@@ -1,249 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchInputlayout"
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.afeef.cryptoapi.util.AppConstants" alias="Util"/>
+
+        <variable
+            name="util"
+            type="Util" />
+        
+        <variable
+            name="tickerResponse"
+            type="com.afeef.cryptoapi.model.TickerDataResponse" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/five_dp"
-        app:endIconMode="custom"
-        app:boxBackgroundMode="none"
-        app:hintEnabled="false"
-        app:endIconDrawable="@drawable/ic_small_search">
+        android:layout_height="match_parent"
+        tools:context=".ui.MainActivity">
 
-        <AutoCompleteTextView
-            android:id="@+id/et_searchbar"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchInputlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/dark_gray"
-            android:textColor="@color/dark_gray"
-            android:background="@color/very_light_gray"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
-            android:textStyle="bold"
-            android:imeOptions="actionDone"
-            android:hint="@string/enter_currency_pair"
-            android:paddingStart="@dimen/fifteen_sp"
-            android:paddingEnd="@dimen/fifteen_sp"
-            android:inputType="text" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/five_dp"
+            app:endIconMode="custom"
+            app:boxBackgroundMode="none"
+            app:hintEnabled="false"
+            app:endIconDrawable="@drawable/ic_small_search">
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_searchtext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="visible"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/two_hundred_dp"
-            android:src="@drawable/ic_big_search"
-            android:contentDescription="@string/search" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/fifteen_sp"
-            android:text="@string/enter_a_currency_pair_to_load_data"/>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_ticker_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_margin="@dimen/twenty_sp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/searchInputlayout">
-
-        <View
-            android:id="@+id/view_center"
-            android:layout_centerInParent="true"
-            android:layout_width="1dp"
-            android:layout_height="1dp"/>
-
-        <TextView
-            android:id="@+id/tv_currency_pair_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirty_sp" />
-
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:textSize="@dimen/thirteen_sp"
-            android:layout_toStartOf="@id/tv_currency_pair_name"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/tv_open_str"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirteen_sp"
-            android:layout_marginTop="@dimen/thirty_sp"
-            android:layout_below="@+id/tv_currency_pair_name"
-            android:text="@string/str_open"/>
-
-        <TextView
-            android:id="@+id/tv_open_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_open_str"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty_sp" />
-
-
-        <TextView
-            android:id="@+id/tv_low_str"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/thirteen_sp"
-            android:layout_marginTop="@dimen/thirty_sp"
-            android:layout_below="@+id/tv_open_value"
-            android:text="@string/str_low"/>
-
-        <TextView
-            android:id="@+id/tv_low_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_low_str"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty_sp" />
-
-
-        <TextView
-            android:id="@+id/tv_volume_str"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_low_value"
-            android:textSize="@dimen/thirteen_sp"
-            android:layout_marginTop="@dimen/thirty_sp"
-            android:text="@string/str_volume"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/tv_volume_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_volume_str"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty_sp" />
-
-
-        <TextView
-            android:id="@+id/tv_high_str"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/thirty_sp"
-            android:textSize="@dimen/thirteen_sp"
-            android:layout_alignStart="@+id/view_center"
-            android:layout_below="@+id/tv_currency_pair_name"
-            android:text="@string/high"/>
-
-        <TextView
-            android:id="@+id/tv_high_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_high_str"
-            android:layout_alignStart="@+id/view_center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty_sp" />
-
-
-        <TextView
-            android:id="@+id/tv_last_str"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/thirty_sp"
-            android:textSize="@dimen/thirteen_sp"
-            android:layout_alignStart="@+id/view_center"
-            android:layout_below="@+id/tv_high_value"
-            android:text="@string/last"/>
-
-        <TextView
-            android:id="@+id/tv_last_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_last_str"
-            android:layout_alignStart="@+id/view_center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty_sp" />
-
-
-        <TextView
-            android:id="@+id/tv_view_hide_order_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_volume_value"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:text="@string/view_order_book"
-            android:textColor="@color/purple_700"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_orderlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/rl_ticker_detail">
-
-        <TextView
-            android:text="@string/order_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/ten_dp"/>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ten_dp"
-            app:cardCornerRadius="@dimen/five_dp">
-
-            <LinearLayout
+            <AutoCompleteTextView
+                android:id="@+id/et_searchbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:textColorHint="@color/dark_gray"
+                android:textColor="@color/dark_gray"
+                android:background="@color/very_light_gray"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:textStyle="bold"
+                android:imeOptions="actionDone"
+                android:hint="@string/enter_currency_pair"
+                android:paddingStart="@dimen/fifteen_sp"
+                android:paddingEnd="@dimen/fifteen_sp"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_searchtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/two_hundred_dp"
+                android:src="@drawable/ic_big_search"
+                android:contentDescription="@string/search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/fifteen_sp"
+                android:text="@string/enter_a_currency_pair_to_load_data" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_ticker_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_margin="@dimen/twenty_sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/searchInputlayout">
+
+            <View
+                android:id="@+id/view_center"
+                android:layout_centerInParent="true"
+                android:layout_width="1dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/tv_currency_pair_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirty_sp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:textSize="@dimen/thirteen_sp"
+                android:layout_toStartOf="@id/tv_currency_pair_name"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_open_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen_sp"
+                android:layout_marginTop="@dimen/thirty_sp"
+                android:layout_below="@+id/tv_currency_pair_name"
+                android:text="@string/str_open" />
+
+            <TextView
+                android:id="@+id/tv_open_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_open_str"
+                android:text="@{`$ ` + tickerResponse.open}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp" />
+
+
+            <TextView
+                android:id="@+id/tv_low_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/thirteen_sp"
+                android:layout_marginTop="@dimen/thirty_sp"
+                android:layout_below="@+id/tv_open_value"
+                android:text="@string/str_low" />
+
+            <TextView
+                android:id="@+id/tv_low_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_low_str"
+                android:text="@{`$ ` + tickerResponse.low}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp" />
+
+
+            <TextView
+                android:id="@+id/tv_volume_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_low_value"
+                android:textSize="@dimen/thirteen_sp"
+                android:layout_marginTop="@dimen/thirty_sp"
+                android:text="@string/str_volume"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_volume_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_volume_str"
+                android:text="@{tickerResponse.volume}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp" />
+
+
+            <TextView
+                android:id="@+id/tv_high_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/thirty_sp"
+                android:textSize="@dimen/thirteen_sp"
+                android:layout_alignStart="@+id/view_center"
+                android:layout_below="@+id/tv_currency_pair_name"
+                android:text="@string/high" />
+
+            <TextView
+                android:id="@+id/tv_high_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_high_str"
+                android:layout_alignStart="@+id/view_center"
+                android:text="@{`$ ` + tickerResponse.high}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp" />
+
+
+            <TextView
+                android:id="@+id/tv_last_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/thirty_sp"
+                android:textSize="@dimen/thirteen_sp"
+                android:layout_alignStart="@+id/view_center"
+                android:layout_below="@+id/tv_high_value"
+                android:text="@string/last" />
+
+            <TextView
+                android:id="@+id/tv_last_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_last_str"
+                android:layout_alignStart="@+id/view_center"
+                android:text="@{`$ ` + tickerResponse.last}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/twenty_sp" />
+
+
+            <TextView
+                android:id="@+id/tv_view_hide_order_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_volume_value"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="@string/view_order_book"
+                android:textColor="@color/purple_700"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_orderlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/rl_ticker_detail">
+
+            <TextView
+                android:text="@string/order_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/ten_dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ten_dp"
+                app:cardCornerRadius="@dimen/five_dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:orientation="horizontal"
-                    android:weightSum="4"
-                    android:baselineAligned="false">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4"
+                        android:baselineAligned="false">
 
                         <TextView
                             android:layout_width="0sp"
@@ -252,7 +272,7 @@
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/green"
-                            android:text="@string/bid_price"/>
+                            android:text="@string/bid_price" />
 
                         <TextView
                             android:layout_width="0sp"
@@ -260,7 +280,7 @@
                             android:gravity="center"
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
-                            android:text="@string/qty"/>
+                            android:text="@string/qty" />
 
 
                         <TextView
@@ -269,7 +289,7 @@
                             android:gravity="center"
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
-                            android:text="@string/qty"/>
+                            android:text="@string/qty" />
 
                         <TextView
                             android:id="@+id/askAmount"
@@ -279,46 +299,47 @@
                             android:textSize="@dimen/thirteen_sp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/red"
-                            android:text="@string/ask_price"/>
+                            android:text="@string/ask_price" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_orderList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_orderList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </androidx.cardview.widget.CardView>
 
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/str_refresh"
+            android:backgroundTint="@color/purple_500"
+            android:visibility="gone"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_sync" />
 
+        <ProgressBar
+            android:id="@+id/pb_api"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:indeterminateTint="@color/design_default_color_primary"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints" />
 
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:contentDescription="@string/str_refresh"
-        android:backgroundTint="@color/purple_500"
-        android:visibility="gone"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_sync"/>
-
-    <ProgressBar
-        android:id="@+id/pb_api"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:indeterminateTint="@color/design_default_color_primary"
-        android:visibility="gone"
-        tools:ignore="MissingConstraints" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -18,8 +18,10 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import com.afeef.cryptoapi.ui.adapter.OrderBookListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.text.SimpleDateFormat
 import java.util.*
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import com.afeef.cryptoapi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), KodeinAware {
 
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     private lateinit var tv_view_hide_order_book : TextView
     private lateinit var progressBar : ProgressBar
     private lateinit var floatingActionButton: FloatingActionButton
-    private lateinit var adapter: OrderBookListAdapter
+    private lateinit var orderAdapter: OrderBookListAdapter
     private lateinit var orderList: RecyclerView
 
     private var searchCryptoPair = ""
@@ -51,12 +53,19 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     private lateinit var context: Context
     private val viewModel: MainActivityViewModel by instance()
 
+    private lateinit var binding : ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
         context = this
 
         initUi()
+
         setClickListeners()
         observeViewModel()
     }
@@ -83,27 +92,24 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         tv_view_hide_order_book = findViewById(R.id.tv_view_hide_order_book)
         orderList = findViewById(R.id.rv_orderList)
 
-        val autoCompleteTvAdapter: ArrayAdapter<String> = ArrayAdapter<String>(context, android.R.layout.select_dialog_item, AppConstants.supportedCryptoValue)
+        val autoCompleteTvAdapter: ArrayAdapter<String> = ArrayAdapter<String>( context, android.R.layout.select_dialog_item, AppConstants.supportedCryptoValue)
         autoCompleteTextView.setAdapter(autoCompleteTvAdapter)
 
-        adapter = OrderBookListAdapter()
-        orderList.adapter = adapter
+
+        orderAdapter = OrderBookListAdapter()
+        orderList.adapter = orderAdapter
     }
 
     private fun setClickListeners() {
-        textInputLayout.setEndIconOnClickListener{
-            searchCryptoPair = autoCompleteTextView.text.toString()
-            if (searchCryptoPair.isNotEmpty() ){
-                if(AppConstants.supportedCryptoValue.any{ it == searchCryptoPair}){
-                    closeKeyboard(textInputLayout)
-                    makeVisibilityGone(llOrderList)
-                    viewModel.getTickerData(searchCryptoPair)
-                }else{
-                    showToast(getString(R.string.enter_valid_currency))
-                }
-            }else{
-                showToast(getString(R.string.enter_currency))
+        autoCompleteTextView.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                searchOperation()
             }
+            true
+        }
+
+        textInputLayout.setEndIconOnClickListener{
+            searchOperation()
         }
 
         tv_view_hide_order_book.setOnClickListener {
@@ -122,6 +128,21 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         floatingActionButton.setOnClickListener {
             viewModel.getTickerData(searchCryptoPair)
             viewModel.getOrderBookData(searchCryptoPair)
+        }
+    }
+
+    fun searchOperation(){
+        searchCryptoPair = autoCompleteTextView.text.toString()
+        if (searchCryptoPair.isNotEmpty() ){
+            if(AppConstants.supportedCryptoValue.any{ it == searchCryptoPair}){
+                closeKeyboard(textInputLayout)
+                makeVisibilityGone(llOrderList)
+                viewModel.getTickerData(searchCryptoPair)
+            }else{
+                showToast(getString(R.string.enter_valid_currency))
+            }
+        }else{
+            showToast(getString(R.string.enter_currency))
         }
     }
 
@@ -157,7 +178,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
         if(!items.isNullOrEmpty()){
             makeVisibilityVisible(llOrderList)
-            adapter.submitList(items)
+            orderAdapter.submitList(items)
         } else{
             makeVisibilityGone(llOrderList)
             showToast(getString(R.string.no_open_order))
@@ -198,23 +219,12 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         makeVisibilityGone(llSearchText)
         makeVisibilityVisible(rlTicker)
         makeVisibilityVisible(floatingActionButton)
+        binding.tickerResponse = tickerDataResponse
 
-        tvDate.text = epochToIso8601(tickerDataResponse.timestamp.toLong())
-        tvCurrencyPair.text = searchCryptoPair.toUpperCase(Locale.ROOT)
-        tvOpen.text = "$ ${tickerDataResponse.open}"
-        tvLow.text = "$ ${tickerDataResponse.low}"
-        tvVolume.text = tickerDataResponse.volume
-        tvHigh.text = "$ ${tickerDataResponse.high}"
-        tvLast.text = "$ ${tickerDataResponse.last}"
+
+        binding.tvDate.text = AppConstants.epochToIso8601(tickerDataResponse.timestamp)
+        binding.tvCurrencyPairName.text = searchCryptoPair.toUpperCase(Locale.ROOT)
     }
-
-    private fun epochToIso8601(time: Long): String {
-        val format = "dd MMM yyyy HH:mm:ss"
-        val sdf = SimpleDateFormat(format, Locale.getDefault())
-        sdf.timeZone = TimeZone.getDefault()
-        return sdf.format(Date(time * 1000))
-    }
-
 
     private fun showToast(msg:String){
         if (::toast.isInitialized) {
@@ -225,7 +235,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     }
 
 
-    fun closeKeyboard(view: View) {
+    private fun closeKeyboard(view: View) {
         view.clearFocus()
         val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         manager.hideSoftInputFromWindow(view.windowToken, 0)
